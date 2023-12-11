@@ -64,6 +64,16 @@ namespace ApiN5now.Service
         {
             try
             {
+                if (permission.PermissionDate < DateTime.Now)
+                    throw new ExceptionCustom("The permission date cannot be less than the current date", HttpStatusCode.BadRequest);
+
+                if (permission.EmployeeForename != "")
+                    throw new ExceptionCustom("The Employeeforeme field cannot be empty", HttpStatusCode.BadRequest);
+
+                if (permission.EmployeeSurname != "")
+                    throw new ExceptionCustom("The EmployeeSurname field cannot be empty", HttpStatusCode.BadRequest);
+
+
                 Permission permission_dto = new Permission(permission.EmployeeForename, permission.EmployeeSurname, permission.PermissionDate, permission.PermissionsType);
                 PermissionEntity entity = permission_dto.PErmissionToEntity();
                 

@@ -6,6 +6,7 @@ using ApiN5now.CustomException;
 using ApiN5now.Service;
 using ApiN5now.Service.IService;
 using ApiN5now.Request;
+using System.ComponentModel.DataAnnotations;
 
 namespace ApiN5now.Controllers
 {
@@ -71,7 +72,7 @@ namespace ApiN5now.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        public async Task<ActionResult<MessageResponse>> PutAsync([FromBody] PermissionUpdate permission, int id)
+        public async Task<ActionResult<MessageResponse>> PutAsync([FromBody] PermissionUpdate permission, [Required] int id)
         {
             try
             {

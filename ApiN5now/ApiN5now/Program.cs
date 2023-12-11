@@ -1,18 +1,20 @@
 
-namespace ApiN5now
-{
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+using ApiN5now;
+using Serilog;
+using System.Configuration;
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-    }
-}
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((hostingContext, loggerConfig) =>
+        loggerConfig.ReadFrom.Configuration(hostingContext.Configuration));
+
+var startup = new Startup(builder.Configuration);
+
+startup.ConfigureServices(builder.Services);
+
+var app = builder.Build();
+
+startup.Configure(app, app.Environment);
+
+
+app.Run();
