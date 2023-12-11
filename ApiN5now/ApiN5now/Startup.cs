@@ -1,4 +1,5 @@
 ﻿using ApiN5now.Service;
+using ApiN5now.Service.IService;
 using Connection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,7 +36,7 @@ namespace ApiN5now
             });
 
             //Services
-            services.AddTransient<PermisionService>();
+            services.AddScoped<IPermissionService, PermisionService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -9,10 +9,20 @@ namespace ApiN5now.DTO
         public string EmployeeSurname { get; set; }
         public DateTime PermissionDate { get; set; }
         public PermissionType PermissionType { get; set; }
+        public int PermissionTypeId { get; set; }
 
         public Permission()
         {
             
+        }
+
+        public Permission(string employeeForename, 
+            string employeeSurname, DateTime permissionDate, int permissionType)
+        {
+            EmployeeForename = employeeForename;
+            EmployeeSurname = employeeSurname;
+            PermissionDate = permissionDate;
+            PermissionTypeId = permissionType;
         }
 
         public void PermissionEntityToPermission(PermissionEntity entity)
@@ -35,7 +45,7 @@ namespace ApiN5now.DTO
                 EmployeeForename = this.EmployeeForename,
                 EmployeeSurname = this.EmployeeSurname,
                 PermissionsDate = this.PermissionDate,
-                PermissionsType = this.PermissionType.id
+                PermissionsType = this.PermissionTypeId
             };
         }
 
