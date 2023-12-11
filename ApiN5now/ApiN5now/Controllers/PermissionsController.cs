@@ -81,10 +81,13 @@ namespace ApiN5now.Controllers
             catch (ExceptionCustom ex)
             {
                 this._logger.LogError(ex.Message);
-                if (ex.code == HttpStatusCode.BadRequest)
-                    return BadRequest(new MessageResponse(ex.Message));
+                if (ex.code == HttpStatusCode.NotFound)
+                    return NotFound(new MessageResponse(ex.Message));
 
-                return StatusCode(500, new MessageResponse(ex.Message));
+                if(ex.code == HttpStatusCode.InternalServerError)
+                    return StatusCode(500, new MessageResponse(ex.Message));
+
+                return BadRequest(new MessageResponse(ex.Message));
             }
             catch (Exception ex)
             {
