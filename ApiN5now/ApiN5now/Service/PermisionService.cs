@@ -43,15 +43,20 @@ namespace ApiN5now.Service
                 }
                 else
                 {
-                    throw new ExceptionCustom("No records found", HttpStatusCode.BadRequest);
+                    throw new ExceptionCustom("No records found", HttpStatusCode.NotFound);
                 }
 
                 return list;
             }
+            catch (ExceptionCustom ex)
+            {
+                this._logger.LogError(ex.Message);
+                throw new ExceptionCustom(ex.Message, ex.code);
+            }
             catch (EntityException ex)
             {
                 this._logger.LogError(ex.Message);
-                throw new ExceptionCustom("Internal server error", HttpStatusCode.InternalServerError);
+                throw new ExceptionCustom("Internal server error", HttpStatusCode.BadRequest);
             }
             catch (Exception ex)
             {
