@@ -1,13 +1,14 @@
-﻿using Connection;
+﻿using ApiN5now.Service;
+using Connection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace ApiN5now
 {
     public class Startup
     {
         public IConfiguration Configuration { get; }
-        readonly string MyAllowSpecificOrigins = "_ApiN5now";
         private string strConnection = "";
 
         public Startup(IConfiguration configuration)
@@ -20,13 +21,21 @@ namespace ApiN5now
         {
 
             strConnection = Configuration.GetConnectionString("BD").ToString() ?? "";
-            services.AddDbContext<Context>(opt => opt.UseSqlServer(strConnection));
+            services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(strConnection), ServiceLifetime.Scoped);
+            services.AddMemoryCache();
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
-           
 
-            //Settings
+            //Serilog
+            services.AddLogging(logginBuilder =>
+            {
+                logginBuilder.ClearProviders();
+                logginBuilder.AddSerilog();
+            });
+
+            //Services
+            services.AddTransient<PermisionService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
